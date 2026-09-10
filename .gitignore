@@ -1,0 +1,10 @@
+target/
+data/
+uploads/
+*.log
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
