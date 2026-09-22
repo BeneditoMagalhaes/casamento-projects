@@ -2,6 +2,10 @@ target/
 data/
 uploads/
 *.log
+
+# Pasta de referencia com as fotos dos presentes (ja enviadas para os
+# cards pelo painel admin); nao precisa ir para o repositorio.
+/Presentes do casamento/
 .idea/
 *.iml
 .vscode/

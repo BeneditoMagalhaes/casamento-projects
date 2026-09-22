@@ -44,7 +44,7 @@ public class RsvpController {
 
     /** Somente admin logado. */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id, HttpServletRequest request) {
         if (!authService.isAdmin(request)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Nao autenticado"));
         }

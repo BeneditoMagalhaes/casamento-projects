@@ -19,6 +19,10 @@ public class GiftItem {
 
     private String price;
 
+    /** URL da foto do presente (upload local em /uploads/gifts/... ou link externo). Se vazio, usa o icone/emoji. */
+    @Column(length = 2000)
+    private String imageUrl;
+
     /** Link de pagamento via Pix, gerado no site/app do banco. */
     @Column(length = 2000)
     private String pixLink;
@@ -39,6 +43,8 @@ public class GiftItem {
     public void setDescription(String description) { this.description = description; }
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public String getPixLink() { return pixLink; }
     public void setPixLink(String pixLink) { this.pixLink = pixLink; }
     public String getCardLink() { return cardLink; }

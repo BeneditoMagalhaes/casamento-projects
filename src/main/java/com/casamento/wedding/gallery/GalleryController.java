@@ -77,7 +77,7 @@ public class GalleryController {
 
     /** Somente admin logado: remove uma foto. */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, HttpServletRequest request) throws IOException {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id, HttpServletRequest request) throws IOException {
         if (!authService.isAdmin(request)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Nao autenticado"));
         }

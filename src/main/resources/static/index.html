@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Parisienne&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Parisienne&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -51,8 +52,9 @@ a{color:inherit}
   backdrop-filter:blur(12px);border-bottom:1px solid var(--line)
 }
 .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.logo{font-family:"Playfair Display",serif;font-size:22px;font-weight:500}
-.logo span{color:var(--primary)}
+.logo{display:inline-flex;align-items:center;text-decoration:none}
+.logo img{width:56px;height:56px;object-fit:contain;border-radius:50%;transition:transform .2s}
+.logo:hover img{transform:scale(1.06)}
 .nav-links{display:flex;align-items:center;gap:26px;list-style:none;margin:0;padding:0}
 .nav-links a{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500}
 .nav-links a:hover{color:var(--primary)}
@@ -75,51 +77,92 @@ a{color:inherit}
 .menu-btn{display:none;border:0;background:transparent;font-size:26px;cursor:pointer}
 
 /* HERO — foto de capa preenchendo todo o espaço.
-   Troque FOTO_CAPA_URL pelo link da foto do casal (ex: hospedada no
-   Google Fotos, Imgur, ou no seu próprio domínio). */
+   A foto agora é enviada pelo painel admin (botão "Trocar foto de capa"
+   aqui no hero) e fica salva no servidor; o gradiente abaixo é só o
+   fundo padrão enquanto nenhuma foto foi enviada ainda. */
 .hero{
-  min-height:calc(100vh - 72px);display:grid;place-items:center;
-  position:relative;overflow:hidden;
-  background:url('FOTO_CAPA_URL') center/cover no-repeat, linear-gradient(180deg,#4f5c38,#2f3324);
+  min-height:calc(100vh - 72px);display:flex;align-items:center;justify-content:flex-end;
+  position:relative;overflow:hidden;padding:0 clamp(24px,8vw,120px);
+  background:linear-gradient(180deg,#8a9a6a,#4f5c38);background-size:cover;background-position:center;
 }
 .hero::before{
   content:"";position:absolute;inset:0;z-index:0;
-  background:linear-gradient(180deg, rgba(30,33,22,.32) 0%, rgba(30,33,22,.48) 55%, rgba(30,33,22,.72) 100%);
+  background:linear-gradient(180deg, rgba(30,33,22,.22) 0%, rgba(30,33,22,.24) 55%, rgba(30,33,22,.48) 100%);
 }
-.hero-content{position:relative;z-index:1;text-align:center;max-width:850px;padding:90px 0}
-.hero-kicker{margin-bottom:18px}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:460px;padding:90px 0}
 .hero .eyebrow{color:#e3e8cd}
-.hero-names{
-  margin:0;color:#fff;font-family:"Parisienne",cursive;
-  font-size:clamp(72px,12vw,132px);font-weight:400;line-height:.95;
-  text-shadow:0 4px 24px rgba(0,0,0,.25);
+.cover-photo-admin{
+  position:absolute;top:16px;right:16px;z-index:2;
+  display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;max-width:280px
 }
-.hero-names .amp{font-family:"Playfair Display",serif;font-size:.38em;color:#cfd9a8;vertical-align:middle}
-.hero-intro{max-width:620px;margin:28px auto 0;color:rgba(255,255,255,.86);font-size:17px}
-.hero-date{margin:24px 0 0;font-family:"Playfair Display",serif;font-size:21px;color:#fff}
-.hero-place{color:rgba(255,255,255,.78);margin:4px 0 0}
+.cover-photo-admin .outline-btn{background:rgba(255,255,255,.94)}
+.cover-photo-admin span{color:#fff;font-size:12px;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.monogram-badge{width:190px;height:190px;margin:0 auto 22px;display:grid;place-items:center}
+.monogram-badge img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
+.hero-names{
+  margin:0;color:#fff;font-family:"DM Sans",sans-serif;
+  font-size:clamp(24px,2.6vw,34px);font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;text-shadow:0 4px 24px rgba(0,0,0,.25);
+}
+.hero-date-line{
+  margin:16px 0 0;color:rgba(255,255,255,.92);font-size:18px;font-weight:600;
+  letter-spacing:.22em
+}
+.scroll-cue{
+  display:inline-flex;flex-direction:column;align-items:center;gap:8px;
+  margin-top:44px;color:rgba(255,255,255,.82);text-decoration:none;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase
+}
+.scroll-cue span{
+  width:26px;height:42px;border:2px solid rgba(255,255,255,.65);border-radius:14px;
+  position:relative
+}
+.scroll-cue span::before{
+  content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;
+  background:#fff;border-radius:2px;transform:translateX(-50%);
+  animation:scrollCue 1.8s infinite
+}
+@keyframes scrollCue{
+  0%{opacity:1;top:7px}
+  70%{opacity:0;top:20px}
+  100%{opacity:0;top:7px}
+}
+
+/* GUARDE A DATA — data, texto de abertura e contagem regressiva,
+   agora fora do hero para deixar a foto de capa respirar. */
+.date-widget{max-width:640px;margin:44px auto 0;text-align:center}
+.date-line{font-family:"Playfair Display",serif;font-size:26px;color:var(--text)}
+.place-line{color:var(--muted);margin:4px 0 0}
 .countdown{
-  margin:42px auto 0;display:grid;grid-template-columns:repeat(4,100px);
+  margin:36px auto 0;display:grid;grid-template-columns:repeat(4,100px);
   justify-content:center;gap:12px
 }
 .time-card{
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);
-  border-radius:16px;padding:15px 8px;backdrop-filter:blur(6px);
-  box-shadow:0 8px 25px rgba(0,0,0,.14)
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:16px;padding:15px 8px;box-shadow:var(--shadow)
 }
-.time-card strong{display:block;font-family:"Playfair Display",serif;color:#fff;font-size:28px}
-.time-card span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.78)}
+.time-card strong{display:block;font-family:"Playfair Display",serif;color:var(--primary-dark);font-size:28px}
+.time-card span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 
 
 /* SECTIONS */
 section{padding:100px 0}
 .section-head{text-align:center;max-width:720px;margin:0 auto 48px}
-.section-head h2{font-family:"Playfair Display",serif;font-weight:500;font-size:42px;line-height:1.15;margin:10px 0}
+.section-head h2{font-family:"Dancing Script",cursive;font-weight:700;font-size:56px;line-height:1.2;margin:6px 0}
 .section-head p{color:var(--muted);margin:0}
 .section-head p.lead{max-width:760px;font-size:17px;line-height:1.8}
 .accent{color:var(--primary);font-weight:600}
-.hero-intro .accent{color:#e3e8cd}
-.soft{background:var(--paper-2)}
+/* Seções "soft" (Guarde a data, Cerimônia, Presentes) usam o verde-oliva
+   escuro do hero como fundo — os cards continuam claros, criando o
+   mesmo contraste testado na seção "Guarde a data". */
+.soft{background:var(--primary-dark)}
+.soft .eyebrow{color:#e8eed2}
+.soft .section-head h2{color:#fff}
+.soft .section-head p{color:rgba(255,255,255,.78)}
+.soft .section-head p.lead{color:rgba(255,255,255,.9)}
+.soft .accent{color:#e8eed2}
+.soft .date-line{color:#fff}
+.soft .place-line{color:rgba(255,255,255,.82)}
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .card{
   background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
@@ -177,16 +220,24 @@ section{padding:100px 0}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .success{display:none;padding:18px;border-radius:12px;background:#edf2ea;color:#586451;margin-top:16px;text-align:center}
 
-/* GIFTS */
-.gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.gift{padding:28px;text-align:center}
+/* GIFTS — card claro com "placa" para a imagem, no mesmo espírito
+   da referência enviada, mas na paleta verde-oliva do site. */
+.gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gift{padding:18px;text-align:center;background:var(--paper-2);border-color:transparent}
 .gift-img{
-  height:150px;border-radius:14px;margin-bottom:18px;display:grid;place-items:center;
-  background:linear-gradient(135deg,#e2e6d0,#f4f6ec);font-size:48px
+  aspect-ratio:1;height:auto;border-radius:12px;margin-bottom:14px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#e2e6d0,#f4f6ec);font-size:40px;overflow:hidden
 }
-.gift h3{font:500 23px "Playfair Display",serif;margin:0 0 7px}
-.gift p{color:var(--muted);font-size:14px;margin:0}
-.gift .price{display:block;color:var(--primary);font-weight:700;margin:13px 0}
+.gift-img img{width:100%;height:100%;object-fit:cover}
+.gift h3{font:500 15px "Playfair Display",serif;margin:0 0 5px;color:var(--text)}
+.gift p{color:var(--muted);font-size:13px;margin:0}
+.gift .price{display:block;color:var(--primary-dark);font-weight:700;font-size:15px;margin:9px 0}
+.gift-buy-btn{
+  display:inline-flex;align-items:center;justify-content:center;border:0;
+  border-radius:999px;background:var(--primary);color:#fff;
+  padding:9px 20px;font-weight:700;font-size:13px;cursor:pointer;transition:.2s
+}
+.gift-buy-btn:hover{background:var(--primary-dark);transform:translateY(-1px)}
 .outline-btn{
   border:1px solid var(--line);background:white;color:var(--primary);
   padding:10px 17px;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer
@@ -258,6 +309,15 @@ section{padding:100px 0}
 .error-text{color:var(--danger);font-size:13px;margin:4px 0 0}
 .payment-options{display:grid;gap:12px;margin-top:24px}
 .payment-option{text-decoration:none;text-align:center}
+.content-modal{max-width:640px;max-height:88vh;overflow-y:auto}
+.content-group-title{
+  font-family:"Playfair Display",serif;font-size:17px;color:var(--primary-dark);
+  margin:26px 0 2px;padding-top:18px;border-top:1px solid var(--line)
+}
+.content-modal .rsvp-form>.content-group-title:first-of-type{border-top:0;padding-top:0;margin-top:18px}
+.date-parts{display:grid;grid-template-columns:90px 1.4fr 100px;gap:10px}
+.date-parts input,.date-parts select{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 10px;background:#fff;color:var(--text);outline:none}
+.date-parts input:focus,.date-parts select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(110,127,78,.12)}
 
 /* ADMIN RSVP TABLE */
 .table-wrap{overflow-x:auto}
@@ -266,9 +326,9 @@ section{padding:100px 0}
 #rsvpTable td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
 
 /* FOOTER */
-footer{background:#333a26;color:#eee;padding:60px 0;text-align:center}
-footer .script{font-size:44px}
-footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
+footer{background:var(--primary-dark);color:#fff;padding:60px 0;text-align:center}
+footer .script{font-size:44px;color:#fff}
+footer p{color:rgba(255,255,255,.78);margin:6px 0 0;font-size:14px}
 
 /* MOBILE */
 @media(max-width:850px){
@@ -278,8 +338,10 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
   .nav-links li{padding:15px 20px;border-top:1px solid var(--line)}
   .nav-cta{display:none}.menu-btn{display:block}
   .nav-actions{gap:8px}
+  .hero{justify-content:center;padding:0 20px;text-align:center}
   .welcome{grid-template-columns:1fr;gap:30px}
-  .gifts,.messages{grid-template-columns:1fr}
+  .messages{grid-template-columns:1fr}
+  .gifts{grid-template-columns:repeat(2,1fr)}
   .photo{flex-basis:88vw;height:390px}
   .gallery-btn{display:none}
   .gallery{gap:12px}
@@ -288,10 +350,9 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
   .container{width:min(var(--max),calc(100% - 28px))}
   section{padding:72px 0}
   .hero-content{padding:70px 0}
-  .hero-names{font-size:70px}
-  .hero-intro{font-size:15px}
   .countdown{grid-template-columns:repeat(2,100px)}
-  .section-head h2,.welcome-copy h2{font-size:34px}
+  .section-head h2{font-size:42px}
+  .welcome-copy h2{font-size:34px}
   .grid-2,.form-row{grid-template-columns:1fr}
   .pad,.rsvp-box{padding:24px}
   .timeline-item{grid-template-columns:58px 18px 1fr;gap:10px}
@@ -307,7 +368,7 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
 
 <header class="topbar">
   <nav class="nav container">
-    <a class="logo" href="#inicio">Y<span>&</span>J</a>
+    <a class="logo" href="#inicio" aria-label="Yasmim & Júnior — início"><img src="img/monograma.png" alt="Monograma Y & J"></a>
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#inicio">Home</a></li>
@@ -317,6 +378,7 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
       <li><a href="#presentes">Presentes</a></li>
       <li><a href="#rsvp">Confirmação</a></li>
       <li id="navAdminItem" hidden><a href="#admin">Painel admin</a></li>
+      <li class="admin-only" id="editContentItem" hidden><a id="openContentBtn" style="cursor:pointer">Editar textos</a></li>
     </ul>
     <div class="nav-actions">
       <button type="button" class="login-btn" id="openLoginBtn">Entrar</button>
@@ -354,6 +416,13 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
     <h3 id="giftModalTitle" class="serif">Novo presente</h3>
     <form id="giftForm" class="rsvp-form">
       <input type="hidden" id="giftId">
+      <input type="hidden" id="giftImageUrl">
+      <div class="field">
+        <label for="giftImageInput">Foto do presente</label>
+        <img id="giftImagePreview" alt="" hidden style="width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin-bottom:8px">
+        <input id="giftImageInput" type="file" accept="image/*">
+        <p class="modal-hint">Se não enviar uma foto, mostramos o ícone/emoji abaixo no lugar dela.</p>
+      </div>
       <div class="field">
         <label for="giftIcon">Ícone (emoji)</label>
         <input id="giftIcon" maxlength="4" placeholder="🎁">
@@ -399,20 +468,181 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
   </div>
 </div>
 
+<!-- EDITAR TEXTOS DO SITE (ADMIN) MODAL -->
+<div class="modal-overlay" id="contentOverlay" hidden>
+  <div class="modal card content-modal" role="dialog" aria-modal="true" aria-labelledby="contentModalTitle">
+    <button class="modal-close" id="closeContentBtn" aria-label="Fechar">×</button>
+    <h3 id="contentModalTitle" class="serif">Editar textos do site</h3>
+    <p class="modal-hint">Esses campos substituem os textos padrão da página. Deixe em branco qualquer campo para manter o texto original.</p>
+    <form id="contentForm" class="rsvp-form">
+
+      <p class="content-group-title">Nomes e data</p>
+      <div class="field">
+        <label for="cf-coupleNames">Nomes do casal</label>
+        <input id="cf-coupleNames" data-key="coupleNames" placeholder="Yasmim e Júnior">
+      </div>
+      <div class="field">
+        <label for="cf-weddingDay">Data do casamento</label>
+        <div class="date-parts">
+          <input id="cf-weddingDay" type="number" min="1" max="31" placeholder="Dia" aria-label="Dia">
+          <select id="cf-weddingMonth" aria-label="Mês">
+            <option value="1">Janeiro</option>
+            <option value="2">Fevereiro</option>
+            <option value="3">Março</option>
+            <option value="4">Abril</option>
+            <option value="5">Maio</option>
+            <option value="6">Junho</option>
+            <option value="7">Julho</option>
+            <option value="8">Agosto</option>
+            <option value="9">Setembro</option>
+            <option value="10">Outubro</option>
+            <option value="11">Novembro</option>
+            <option value="12">Dezembro</option>
+          </select>
+          <input id="cf-weddingYear" type="number" min="2024" max="2100" placeholder="Ano" aria-label="Ano">
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-weddingTime">Horário da cerimônia</label>
+        <input id="cf-weddingTime" data-key="weddingTime" type="time" style="max-width:160px">
+      </div>
+      <p class="modal-hint" style="margin-top:-6px">Essa data/horário controla a contagem regressiva e as datas mostradas na home.</p>
+      <div class="field">
+        <label for="cf-weddingPlace">Local (linha de destaque abaixo da data)</label>
+        <input id="cf-weddingPlace" data-key="weddingPlace" placeholder="Sítio Flor de Maio · São Paulo, SP">
+      </div>
+      <div class="field">
+        <label for="cf-introText">Texto de abertura ("Guarde a data")</label>
+        <textarea id="cf-introText" data-key="introText" rows="3"></textarea>
+      </div>
+
+      <p class="content-group-title">A cerimônia</p>
+      <div class="field">
+        <label for="cf-ceremonyIntro">Texto de abertura</label>
+        <textarea id="cf-ceremonyIntro" data-key="ceremonyIntro" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="cf-ceremonyVenue">Local</label>
+        <input id="cf-ceremonyVenue" data-key="ceremonyVenue">
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-ceremonyTime">Horário exibido</label>
+          <input id="cf-ceremonyTime" data-key="ceremonyTime" placeholder="16h">
+        </div>
+        <div class="field">
+          <label for="cf-ceremonyNote">Observação</label>
+          <input id="cf-ceremonyNote" data-key="ceremonyNote">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-ceremonyAddress1">Endereço (linha 1)</label>
+          <input id="cf-ceremonyAddress1" data-key="ceremonyAddress1">
+        </div>
+        <div class="field">
+          <label for="cf-ceremonyAddress2">Endereço (linha 2)</label>
+          <input id="cf-ceremonyAddress2" data-key="ceremonyAddress2">
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-ceremonyMapUrl">Link do Google Maps</label>
+        <input id="cf-ceremonyMapUrl" data-key="ceremonyMapUrl" type="url">
+      </div>
+
+      <p class="content-group-title">A recepção</p>
+      <div class="field">
+        <label for="cf-receptionIntro">Texto de abertura</label>
+        <textarea id="cf-receptionIntro" data-key="receptionIntro" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="cf-receptionVenue">Local</label>
+        <input id="cf-receptionVenue" data-key="receptionVenue">
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-receptionTime">Horário exibido</label>
+          <input id="cf-receptionTime" data-key="receptionTime" placeholder="18h30">
+        </div>
+        <div class="field">
+          <label for="cf-receptionNote">Observação</label>
+          <input id="cf-receptionNote" data-key="receptionNote">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="cf-receptionAddress1">Endereço (linha 1)</label>
+          <input id="cf-receptionAddress1" data-key="receptionAddress1">
+        </div>
+        <div class="field">
+          <label for="cf-receptionAddress2">Endereço (linha 2)</label>
+          <input id="cf-receptionAddress2" data-key="receptionAddress2">
+        </div>
+      </div>
+      <div class="field">
+        <label for="cf-receptionMapUrl">Link do Google Maps</label>
+        <input id="cf-receptionMapUrl" data-key="receptionMapUrl" type="url">
+      </div>
+      <div class="field">
+        <label for="cf-dressCode">Dress code</label>
+        <textarea id="cf-dressCode" data-key="dressCode" rows="2"></textarea>
+      </div>
+
+      <p class="content-group-title">Presentes e confirmação</p>
+      <div class="field">
+        <label for="cf-giftsIntro">Texto de abertura da lista de presentes</label>
+        <textarea id="cf-giftsIntro" data-key="giftsIntro" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="cf-rsvpDeadline">Data limite para confirmar presença</label>
+        <input id="cf-rsvpDeadline" data-key="rsvpDeadline" placeholder="1º de novembro de 2026">
+      </div>
+      <div class="field">
+        <label for="cf-footerMessage">Mensagem do rodapé</label>
+        <input id="cf-footerMessage" data-key="footerMessage">
+      </div>
+
+      <button class="primary-btn" type="submit">Salvar textos</button>
+      <p class="error-text" id="contentFormError" hidden></p>
+      <p class="modal-hint" id="contentFormSuccess" hidden style="color:var(--primary);font-weight:700">Textos salvos!</p>
+    </form>
+  </div>
+</div>
+
 <main>
 <section class="hero" id="inicio">
-  <div class="hero-content container">
-    <div class="eyebrow hero-kicker">Nosso grande dia</div>
-    <h1 class="hero-names">Yasmim <span class="amp">&</span> Júnior</h1>
-    <p class="hero-intro">Histórias de amor existem, e, às vezes, nem nós mesmos <span class="accent">acreditamos</span> todo o tempo que já estamos juntos. Estamos preparando tudo com muito <span class="accent">carinho</span> para curtir cada momento ao lado de quem amamos.</p>
-    <div class="hero-date">12 de dezembro de 2026</div>
-    <div class="hero-place">Sítio Flor de Maio · São Paulo, SP</div>
+  <div class="hero-content">
+    <div class="monogram-badge"><img src="img/monograma-branco.png" alt="Monograma Y & J"></div>
+    <h1 class="hero-names" data-content="coupleNames">Yasmim e Júnior</h1>
+    <div class="hero-date-line" id="heroDateLine">12 | 12 | 2026</div>
+    <a class="scroll-cue" href="#data"><span></span>Role para ver mais</a>
+  </div>
+  <div class="admin-only cover-photo-admin" id="coverPhotoAdmin" hidden>
+    <label class="outline-btn" style="cursor:pointer">
+      Trocar foto de capa
+      <input type="file" id="coverPhotoInput" accept="image/*" style="display:none">
+    </label>
+    <button class="outline-btn danger" id="removeCoverBtn" type="button" hidden>Remover foto</button>
+    <span id="coverPhotoStatus"></span>
+  </div>
+</section>
 
-    <div class="countdown" id="countdown">
-      <div class="time-card"><strong id="days">00</strong><span>Dias</span></div>
-      <div class="time-card"><strong id="hours">00</strong><span>Horas</span></div>
-      <div class="time-card"><strong id="minutes">00</strong><span>Minutos</span></div>
-      <div class="time-card"><strong id="seconds">00</strong><span>Segundos</span></div>
+<section class="soft" id="data">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Nosso grande dia</span>
+      <h2>Guarde a data</h2>
+      <p class="lead" data-content="introText">Histórias de amor existem, e, às vezes, nem nós mesmos <span class="accent">acreditamos</span> todo o tempo que já estamos juntos. Estamos preparando tudo com muito <span class="accent">carinho</span> para curtir cada momento ao lado de quem amamos.</p>
+    </div>
+    <div class="date-widget">
+      <div class="date-line" id="dateLine">12 de dezembro de 2026</div>
+      <div class="place-line" data-content="weddingPlace">Sítio Flor de Maio · São Paulo, SP</div>
+      <div class="countdown" id="countdown">
+        <div class="time-card"><strong id="days">00</strong><span>Dias</span></div>
+        <div class="time-card"><strong id="hours">00</strong><span>Horas</span></div>
+        <div class="time-card"><strong id="minutes">00</strong><span>Minutos</span></div>
+        <div class="time-card"><strong id="seconds">00</strong><span>Segundos</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -446,17 +676,17 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
     <div class="section-head">
       <span class="eyebrow">Quando e onde</span>
       <h2>A cerimônia</h2>
-      <p class="lead">Vamos nos casar cercados pelas pessoas que mais <span class="accent">amamos</span>. Chegue com calma, reserve esse horário com <span class="accent">carinho</span> na agenda e venha celebrar esse começo com a gente.</p>
+      <p class="lead" data-content="ceremonyIntro">Vamos nos casar cercados pelas pessoas que mais <span class="accent">amamos</span>. Chegue com calma, reserve esse horário com <span class="accent">carinho</span> na agenda e venha celebrar esse começo com a gente.</p>
     </div>
 
     <article class="card event-card" style="max-width:560px;margin:0 auto">
       <span class="event-tag">Cerimônia</span>
-      <h3>Capela Nossa Senhora do Campo</h3>
+      <h3 data-content="ceremonyVenue">Capela Nossa Senhora do Campo</h3>
       <div class="event-info">
-        <div><span class="event-icon">⌚</span><span><b>16h</b><br>Chegue com 20 minutos de antecedência.</span></div>
-        <div><span class="event-icon">⌖</span><span>Estrada do Campo, 480<br>Cotia · SP</span></div>
+        <div><span class="event-icon">⌚</span><span><b data-content="ceremonyTime">16h</b><br><span data-content="ceremonyNote">Chegue com 20 minutos de antecedência.</span></span></div>
+        <div><span class="event-icon">⌖</span><span><span data-content="ceremonyAddress1">Estrada do Campo, 480</span><br><span data-content="ceremonyAddress2">Cotia · SP</span></span></div>
       </div>
-      <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Estrada+do+Campo+480+Cotia+SP" target="_blank" rel="noopener">Abrir no mapa</a>
+      <a class="map-btn" id="ceremonyMapBtn" href="https://www.google.com/maps/search/?api=1&query=Estrada+do+Campo+480+Cotia+SP" target="_blank" rel="noopener">Abrir no mapa</a>
     </article>
   </div>
 </section>
@@ -466,22 +696,22 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
     <div class="section-head">
       <span class="eyebrow">Depois do sim</span>
       <h2>A recepção</h2>
-      <p class="lead">Depois da cerimônia, é hora de <span class="accent">comemorar</span> de verdade: jantar, música ao vivo e uma pista de dança que promete não esvaziar até o fim da <span class="accent">festa</span>.</p>
+      <p class="lead" data-content="receptionIntro">Depois da cerimônia, é hora de <span class="accent">comemorar</span> de verdade: jantar, música ao vivo e uma pista de dança que promete não esvaziar até o fim da <span class="accent">festa</span>.</p>
     </div>
 
     <article class="card event-card" style="max-width:560px;margin:0 auto">
       <span class="event-tag">Festa</span>
-      <h3>Sítio Flor de Maio</h3>
+      <h3 data-content="receptionVenue">Sítio Flor de Maio</h3>
       <div class="event-info">
-        <div><span class="event-icon">⌚</span><span><b>18h30</b><br>Jantar, festa e muita música ao vivo.</span></div>
-        <div><span class="event-icon">⌖</span><span>Estrada do Campo, 620<br>Cotia · SP</span></div>
+        <div><span class="event-icon">⌚</span><span><b data-content="receptionTime">18h30</b><br><span data-content="receptionNote">Jantar, festa e muita música ao vivo.</span></span></div>
+        <div><span class="event-icon">⌖</span><span><span data-content="receptionAddress1">Estrada do Campo, 620</span><br><span data-content="receptionAddress2">Cotia · SP</span></span></div>
       </div>
-      <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Estrada+do+Campo+620+Cotia+SP" target="_blank" rel="noopener">Abrir no mapa</a>
+      <a class="map-btn" id="receptionMapBtn" href="https://www.google.com/maps/search/?api=1&query=Estrada+do+Campo+620+Cotia+SP" target="_blank" rel="noopener">Abrir no mapa</a>
     </article>
 
     <div class="card pad dress">
-      <b>Dress code:</b> esporte fino em tons de terra, verde-oliva ou marfim.
-      Evitem branco e bege claro.
+      <b>Dress code:</b> <span data-content="dressCode">esporte fino em tons de terra, verde-oliva ou marfim.
+      Evitem branco e bege claro.</span>
     </div>
   </div>
 </section>
@@ -491,7 +721,7 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
     <div class="section-head">
       <span class="eyebrow">Com carinho</span>
       <h2>Lista de presentes</h2>
-      <p class="lead">Sua <span class="accent">presença</span> já é o maior presente que poderíamos pedir. Mas, se quiser nos ajudar a começar essa nova fase, preparamos algumas ideias com muito <span class="accent">carinho</span>.</p>
+      <p class="lead" data-content="giftsIntro">Sua <span class="accent">presença</span> já é o maior presente que poderíamos pedir. Mas, se quiser nos ajudar a começar essa nova fase, preparamos algumas ideias com muito <span class="accent">carinho</span>.</p>
     </div>
 
     <div class="gifts" id="giftsList"></div>
@@ -506,7 +736,7 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
     <div class="section-head">
       <span class="eyebrow">Contamos com você</span>
       <h2>Confirme sua presença</h2>
-      <p class="lead">Sua resposta nos ajuda a organizar cada <span class="accent">detalhe</span> com carinho. Pedimos a gentileza de confirmar até <span class="accent">1º de novembro de 2026</span>.</p>
+      <p class="lead">Sua resposta nos ajuda a organizar cada <span class="accent">detalhe</span> com carinho. Pedimos a gentileza de confirmar até <span class="accent" data-content="rsvpDeadline">1º de novembro de 2026</span>.</p>
     </div>
 
     <div class="card rsvp-box">
@@ -577,7 +807,7 @@ footer p{color:#cbd0bb;margin:6px 0 0;font-size:14px}
 <footer>
   <div class="container">
     <span class="script">Yasmim & Júnior</span>
-    <p>Com carinho, contando os dias para celebrar com vocês. ♥</p>
+    <p data-content="footerMessage">Com carinho, contando os dias para celebrar com vocês. ♥</p>
   </div>
 </footer>
 
@@ -588,10 +818,34 @@ const navLinks = document.getElementById("navLinks");
 menuBtn.addEventListener("click", () => navLinks.classList.toggle("open"));
 navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navLinks.classList.remove("open")));
 
-const weddingDate = new Date("2026-12-12T16:00:00-03:00").getTime();
+/* Data/hora do casamento — editável pelo admin em "Editar textos".
+   currentWeddingDate/Time começam no valor padrão e são atualizados
+   quando os textos salvos pelo admin são carregados (ver applyContent). */
+const DEFAULT_WEDDING_DATE = "2026-12-12";
+const DEFAULT_WEDDING_TIME = "16:00";
+const PT_MONTHS = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+let currentWeddingDate = DEFAULT_WEDDING_DATE;
+let currentWeddingTime = DEFAULT_WEDDING_TIME;
+let weddingTimestamp = new Date(`${currentWeddingDate}T${currentWeddingTime}:00-03:00`).getTime();
+
+function formatDateLinePt(iso){
+  const [y,m,d] = iso.split("-").map(Number);
+  return `${d} de ${PT_MONTHS[m-1]} de ${y}`;
+}
+function formatHeroDatePt(iso){
+  const [y,m,d] = iso.split("-").map(Number);
+  return `${String(d).padStart(2,"0")} | ${String(m).padStart(2,"0")} | ${y}`;
+}
+
+function recalcWeddingDate(){
+  weddingTimestamp = new Date(`${currentWeddingDate}T${currentWeddingTime}:00-03:00`).getTime();
+  document.getElementById("heroDateLine").textContent = formatHeroDatePt(currentWeddingDate);
+  document.getElementById("dateLine").textContent = formatDateLinePt(currentWeddingDate);
+  updateCountdown();
+}
 
 function updateCountdown(){
-  const diff = weddingDate - Date.now();
+  const diff = weddingTimestamp - Date.now();
   if(diff <= 0){
     document.getElementById("countdown").innerHTML =
       '<div style="grid-column:1/-1;font-family:Playfair Display,serif;font-size:24px;color:#fff">É hoje! ♥</div>';
@@ -628,6 +882,7 @@ function setAdminUI(admin){
   // re-renderiza para mostrar/esconder botões de editar/excluir dentro dos cards já carregados
   renderGallery(lastPhotos);
   renderGifts(lastGifts);
+  document.getElementById("removeCoverBtn").hidden = !(admin && lastCoverPhotoUrl);
   if(admin) loadRsvps();
 }
 
@@ -789,12 +1044,15 @@ function renderGifts(gifts){
     const article = document.createElement("article");
     article.className = "card gift";
     article.dataset.id = g.id;
+    const imgHtml = g.imageUrl
+      ? `<img src="${escapeHtml(g.imageUrl)}" alt="${escapeHtml(g.title)}" loading="lazy">`
+      : (escapeHtml(g.icon) || "🎁");
     article.innerHTML = `
-      <div class="gift-img">${escapeHtml(g.icon) || "🎁"}</div>
+      <div class="gift-img">${imgHtml}</div>
       <h3>${escapeHtml(g.title)}</h3>
       <p>${escapeHtml(g.description)}</p>
       <span class="price">${escapeHtml(g.price)}</span>
-      <button class="outline-btn" data-action="give">Presentear</button>
+      <button class="gift-buy-btn" data-action="give">Presentear</button>
       <div class="admin-only gift-admin-actions" ${isAdmin ? "" : "hidden"}>
         <button class="outline-btn" data-action="edit">Editar</button>
         <button class="outline-btn danger" data-action="delete">Excluir</button>
@@ -812,6 +1070,11 @@ function openGiftModal(gift){
   document.getElementById("giftModalTitle").textContent = gift ? "Editar presente" : "Novo presente";
   document.getElementById("giftFormError").hidden = true;
   document.getElementById("giftId").value = gift ? gift.id : "";
+  document.getElementById("giftImageUrl").value = gift ? (gift.imageUrl || "") : "";
+  document.getElementById("giftImageInput").value = "";
+  const preview = document.getElementById("giftImagePreview");
+  if(gift && gift.imageUrl){ preview.src = gift.imageUrl; preview.hidden = false; }
+  else{ preview.src = ""; preview.hidden = true; }
   document.getElementById("giftIcon").value = gift ? (gift.icon || "") : "🎁";
   document.getElementById("giftTitle").value = gift ? (gift.title || "") : "";
   document.getElementById("giftDescription").value = gift ? (gift.description || "") : "";
@@ -820,6 +1083,14 @@ function openGiftModal(gift){
   document.getElementById("giftCardLink").value = gift ? (gift.cardLink || "") : "";
   giftOverlay.hidden = false;
 }
+
+document.getElementById("giftImageInput").addEventListener("change", e => {
+  const file = e.target.files[0];
+  const preview = document.getElementById("giftImagePreview");
+  if(!file){ return; }
+  preview.src = URL.createObjectURL(file);
+  preview.hidden = false;
+});
 document.getElementById("addGiftBtn").addEventListener("click", () => openGiftModal(null));
 document.getElementById("closeGiftBtn").addEventListener("click", () => { giftOverlay.hidden = true; });
 giftOverlay.addEventListener("click", e => { if(e.target === giftOverlay) giftOverlay.hidden = true; });
@@ -834,6 +1105,7 @@ document.getElementById("giftForm").addEventListener("submit", async e => {
     title: document.getElementById("giftTitle").value,
     description: document.getElementById("giftDescription").value,
     price: document.getElementById("giftPrice").value,
+    imageUrl: document.getElementById("giftImageUrl").value,
     pixLink: document.getElementById("giftPixLink").value.trim(),
     cardLink: document.getElementById("giftCardLink").value.trim()
   };
@@ -850,6 +1122,19 @@ document.getElementById("giftForm").addEventListener("submit", async e => {
       errorEl.textContent = data.error || "Não foi possível salvar o presente.";
       errorEl.hidden = false;
       return;
+    }
+    const saved = await res.json();
+    const imageFile = document.getElementById("giftImageInput").files[0];
+    if(imageFile){
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      const imgRes = await fetch("/api/gifts/" + saved.id + "/image", {method:"POST", body:formData});
+      if(!imgRes.ok){
+        errorEl.textContent = "Presente salvo, mas não foi possível enviar a foto. Tente editar o presente novamente.";
+        errorEl.hidden = false;
+        loadGifts();
+        return;
+      }
     }
     giftOverlay.hidden = true;
     loadGifts();
@@ -954,10 +1239,155 @@ async function deleteRsvp(id){
   loadRsvps();
 }
 
+/* ======================= FOTO DE CAPA (HERO) ======================= */
+const HERO_GRADIENT = "linear-gradient(180deg,#8a9a6a,#4f5c38)";
+let lastCoverPhotoUrl = null;
+
+function applyCoverPhoto(url){
+  const hero = document.querySelector(".hero");
+  hero.style.backgroundImage = url ? `url('${url}'), ${HERO_GRADIENT}` : HERO_GRADIENT;
+}
+
+async function loadCoverPhoto(){
+  try{
+    const res = await fetch("/api/settings");
+    const data = await res.json();
+    lastCoverPhotoUrl = data.coverPhotoUrl || null;
+  }catch(e){
+    lastCoverPhotoUrl = null;
+  }
+  applyCoverPhoto(lastCoverPhotoUrl);
+  document.getElementById("removeCoverBtn").hidden = !(isAdmin && lastCoverPhotoUrl);
+}
+
+document.getElementById("coverPhotoInput").addEventListener("change", async e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const status = document.getElementById("coverPhotoStatus");
+  status.textContent = "Enviando...";
+  const formData = new FormData();
+  formData.append("photo", file);
+  try{
+    const res = await fetch("/api/settings/cover-photo", {method:"POST", body:formData});
+    if(!res.ok) throw new Error();
+    const data = await res.json();
+    lastCoverPhotoUrl = data.coverPhotoUrl;
+    applyCoverPhoto(lastCoverPhotoUrl);
+    document.getElementById("removeCoverBtn").hidden = !isAdmin || !lastCoverPhotoUrl;
+    status.textContent = "Foto de capa atualizada!";
+  }catch(err){
+    status.textContent = "Erro ao enviar a foto.";
+  }
+  e.target.value = "";
+  setTimeout(() => status.textContent = "", 3000);
+});
+
+document.getElementById("removeCoverBtn").addEventListener("click", async () => {
+  if(!confirm("Remover a foto de capa e voltar ao fundo padrão?")) return;
+  await fetch("/api/settings/cover-photo", {method:"DELETE"});
+  lastCoverPhotoUrl = null;
+  applyCoverPhoto(null);
+  document.getElementById("removeCoverBtn").hidden = true;
+});
+
+/* ======================= TEXTOS E DATA (EDITÁVEIS) ======================= */
+let currentContent = {};
+
+function applyContent(map){
+  document.querySelectorAll("[data-content]").forEach(el => {
+    const key = el.dataset.content;
+    if(map[key]) el.textContent = map[key];
+  });
+  if(map.weddingDate) currentWeddingDate = map.weddingDate;
+  if(map.weddingTime) currentWeddingTime = map.weddingTime;
+  recalcWeddingDate();
+  if(map.ceremonyMapUrl) document.getElementById("ceremonyMapBtn").href = map.ceremonyMapUrl;
+  if(map.receptionMapUrl) document.getElementById("receptionMapBtn").href = map.receptionMapUrl;
+}
+
+async function loadContent(){
+  try{
+    const res = await fetch("/api/content");
+    currentContent = await res.json();
+  }catch(e){
+    currentContent = {};
+  }
+  applyContent(currentContent);
+}
+
+const contentOverlay = document.getElementById("contentOverlay");
+
+document.getElementById("openContentBtn").addEventListener("click", () => {
+  document.getElementById("contentFormError").hidden = true;
+  document.getElementById("contentFormSuccess").hidden = true;
+  document.querySelectorAll("#contentForm [data-key]").forEach(input => {
+    const key = input.dataset.key;
+    let value = currentContent[key];
+    if(value == null){
+      if(key === "weddingTime") value = currentWeddingTime;
+      else if(key === "ceremonyMapUrl") value = document.getElementById("ceremonyMapBtn").getAttribute("href") || "";
+      else if(key === "receptionMapUrl") value = document.getElementById("receptionMapBtn").getAttribute("href") || "";
+      else{
+        const el = document.querySelector(`[data-content="${key}"]`);
+        value = el ? el.textContent.trim() : "";
+      }
+    }
+    input.value = value;
+  });
+  // Data do casamento: três campos separados (dia/mês/ano) em vez de um
+  // <input type="date"> nativo, que fica avançando de segmento sozinho
+  // e confunde quem está digitando.
+  const [y, m, d] = currentWeddingDate.split("-").map(Number);
+  document.getElementById("cf-weddingDay").value = d;
+  document.getElementById("cf-weddingMonth").value = m;
+  document.getElementById("cf-weddingYear").value = y;
+  contentOverlay.hidden = false;
+});
+document.getElementById("closeContentBtn").addEventListener("click", () => { contentOverlay.hidden = true; });
+contentOverlay.addEventListener("click", e => { if(e.target === contentOverlay) contentOverlay.hidden = true; });
+
+document.getElementById("contentForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const errorEl = document.getElementById("contentFormError");
+  const successEl = document.getElementById("contentFormSuccess");
+  errorEl.hidden = true;
+  successEl.hidden = true;
+  const day = parseInt(document.getElementById("cf-weddingDay").value, 10);
+  const month = parseInt(document.getElementById("cf-weddingMonth").value, 10);
+  const year = parseInt(document.getElementById("cf-weddingYear").value, 10);
+  if(!day || !month || !year || day < 1 || day > 31){
+    errorEl.textContent = "Preencha dia, mês e ano da data do casamento.";
+    errorEl.hidden = false;
+    return;
+  }
+  const payload = {
+    weddingDate: `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}`
+  };
+  document.querySelectorAll("#contentForm [data-key]").forEach(input => {
+    payload[input.dataset.key] = input.value.trim();
+  });
+  try{
+    const res = await fetch("/api/content", {
+      method:"PUT",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error();
+    currentContent = await res.json();
+    applyContent(currentContent);
+    successEl.hidden = false;
+  }catch(err){
+    errorEl.textContent = "Não foi possível salvar os textos.";
+    errorEl.hidden = false;
+  }
+});
+
 /* ======================= INIT ======================= */
 checkAuth();
 loadGallery();
 loadGifts();
+loadCoverPhoto();
+loadContent();
 </script>
 </body>
 </html>
