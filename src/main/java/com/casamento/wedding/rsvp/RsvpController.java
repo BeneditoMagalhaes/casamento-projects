@@ -1,6 +1,7 @@
 package com.casamento.wedding.rsvp;
 
 import com.casamento.wedding.auth.AuthService;
+import com.casamento.wedding.notify.RsvpNotificationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,12 @@ public class RsvpController {
 
     private final RsvpRepository repository;
     private final AuthService authService;
+    private final RsvpNotificationService notificationService;
 
-    public RsvpController(RsvpRepository repository, AuthService authService) {
+    public RsvpController(RsvpRepository repository, AuthService authService, RsvpNotificationService notificationService) {
         this.repository = repository;
         this.authService = authService;
+        this.notificationService = notificationService;
     }
 
     /** Publico: qualquer convidado pode confirmar presenca. */
@@ -29,7 +32,8 @@ public class RsvpController {
             return ResponseEntity.badRequest().body(Map.of("error", "Nome e presenca sao obrigatorios"));
         }
         entry.setId(null);
-        repository.save(entry);
+        RsvpEntry saved = repository.save(entry);
+        notificationService.notifyNewRsvp(saved);
         return ResponseEntity.ok(Map.of("saved", true));
     }
 
