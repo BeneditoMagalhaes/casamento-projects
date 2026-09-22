@@ -54,6 +54,22 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("authenticated", authService.isAdmin(request)));
     }
 
+    // DIAGNOSTICO TEMPORARIO — nao expoe a senha, so confirma se as variaveis
+    // de ambiente estao chegando no servidor. Remover depois de usar.
+    @GetMapping("/debug-config")
+    public ResponseEntity<?> debugConfig() {
+        boolean usernameIsDefault = "noivos".equals(adminUsername);
+        boolean passwordIsDefault = "trocar123".equals(adminPassword);
+        return ResponseEntity.ok(Map.of(
+                "usernameIsDefault", usernameIsDefault,
+                "passwordIsDefault", passwordIsDefault,
+                "usernameLength", adminUsername == null ? -1 : adminUsername.length(),
+                "passwordLength", adminPassword == null ? -1 : adminPassword.length(),
+                "envAdminUsernameRaw", System.getenv("ADMIN_USERNAME") == null ? "AUSENTE" : "presente, tamanho=" + System.getenv("ADMIN_USERNAME").length(),
+                "envAdminPasswordRaw", System.getenv("ADMIN_PASSWORD") == null ? "AUSENTE" : "presente, tamanho=" + System.getenv("ADMIN_PASSWORD").length()
+        ));
+    }
+
     private boolean constantTimeEquals(String a, String b) {
         if (a == null || b == null) return false;
         return MessageDigest.isEqual(a.getBytes(StandardCharsets.UTF_8), b.getBytes(StandardCharsets.UTF_8));
